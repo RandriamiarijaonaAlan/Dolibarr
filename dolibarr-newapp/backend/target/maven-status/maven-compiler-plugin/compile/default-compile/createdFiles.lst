@@ -1,0 +1,7 @@
+com\newapp\dolibarr\service\DolibarrClientService.class
+com\newapp\dolibarr\controller\HealthController.class
+com\newapp\dolibarr\dto\DolibarrConnectionResponse.class
+com\newapp\dolibarr\DolibarrBackendApplication.class
+com\newapp\dolibarr\controller\DolibarrController.class
+com\newapp\dolibarr\config\DolibarrProperties.class
+META-INF\spring-configuration-metadata.json
