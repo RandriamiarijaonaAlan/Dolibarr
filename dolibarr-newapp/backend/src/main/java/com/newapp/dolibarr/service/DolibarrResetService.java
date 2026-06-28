@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,7 @@ public class DolibarrResetService {
         List<String> errors = new ArrayList<>();
         int paymentsDeleted = supprimerPaiements(errors);
         int salariesDeleted = supprimerSalaires(errors);
-        ResumeUtilisateurs resumeUtilisateurs = supprimerUtilisateursImportes(errors);
+        ResumeUtilisateurs resumeUtilisateurs = supprimerUtilisateursNonProteges(errors);
 
         return creerResumeReset(
                 resumeUtilisateurs.usersDeleted(),
@@ -35,7 +36,7 @@ public class DolibarrResetService {
         );
     }
 
-    public ResumeUtilisateurs supprimerUtilisateursImportes(List<String> errors) {
+    public ResumeUtilisateurs supprimerUtilisateursNonProteges(List<String> errors) {
         int usersDeleted = 0;
         int usersSkippedProtected = 0;
         int usersSkippedNotNewApp = 0;
@@ -52,7 +53,7 @@ public class DolibarrResetService {
                 Object utilisateurComplet = chargerDetailsUtilisateur(utilisateur, id, errors);
 
                 if (utilisateurComplet == null) {
-                    usersSkippedNotNewApp++;
+                    ajouterErreur(errors, "Utilisateur " + id + " impossible a verifier, suppression ignoree");
                     continue;
                 }
 
@@ -61,13 +62,8 @@ public class DolibarrResetService {
                     continue;
                 }
 
-                if (!utilisateurImporteNewApp(utilisateurComplet)) {
-                    usersSkippedNotNewApp++;
-                    continue;
-                }
-
                 if (id == null) {
-                    ajouterErreur(errors, "Utilisateur NewApp sans id détecté, suppression ignorée");
+                    ajouterErreur(errors, "Utilisateur sans id detecte, suppression ignoree");
                     continue;
                 }
 
@@ -91,9 +87,9 @@ public class DolibarrResetService {
         }
 
         try {
-            return dolibarrClientService.appelerDolibarr("/users/" + id, org.springframework.http.HttpMethod.GET, null, Map.class).getBody();
+            return dolibarrClientService.appelerDolibarr("/users/" + id, HttpMethod.GET, null, Map.class).getBody();
         } catch (Exception exception) {
-            ajouterErreur(errors, "Impossible de vérifier l'utilisateur " + id + " : " + dolibarrClientService.gererErreurDolibarr(exception));
+            ajouterErreur(errors, "Impossible de verifier l'utilisateur " + id + " : " + dolibarrClientService.gererErreurDolibarr(exception));
             return null;
         }
     }
@@ -112,16 +108,6 @@ public class DolibarrResetService {
         }
 
         return admin != null && admin == 1;
-    }
-
-    public boolean utilisateurImporteNewApp(Object utilisateur) {
-        String login = valeurTexte(utilisateur, "login");
-        String notePrivate = valeurTexte(utilisateur, "note_private");
-        String importKey = valeurTexte(utilisateur, "import_key");
-
-        return login != null && login.startsWith("newapp_")
-                || notePrivate != null && notePrivate.contains("NEWAPP_IMPORT")
-                || "NEWAPP".equals(importKey);
     }
 
     public int supprimerSalaires(List<String> errors) {
@@ -158,7 +144,7 @@ public class DolibarrResetService {
 
         return new ReinitialisationResponse(
                 success,
-                success ? "Données Dolibarr réinitialisées" : "Réinitialisation terminée avec erreurs",
+                success ? "Donnees Dolibarr reinitialisees" : "Reinitialisation terminee avec erreurs",
                 usersDeleted,
                 usersSkippedProtected,
                 usersSkippedNotNewApp,
@@ -197,7 +183,11 @@ public class DolibarrResetService {
         }
 
         if (valeur instanceof String texte && !texte.isBlank()) {
-            return Integer.parseInt(texte);
+            try {
+                return Integer.parseInt(texte);
+            } catch (NumberFormatException exception) {
+                return null;
+            }
         }
 
         return null;

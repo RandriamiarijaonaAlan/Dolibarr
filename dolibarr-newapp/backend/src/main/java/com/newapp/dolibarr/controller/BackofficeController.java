@@ -2,11 +2,14 @@ package com.newapp.dolibarr.controller;
 
 import com.newapp.dolibarr.dto.CodeBackofficeRequest;
 import com.newapp.dolibarr.dto.CodeBackofficeResponse;
+import com.newapp.dolibarr.dto.DashboardResponse;
 import com.newapp.dolibarr.dto.ReinitialisationResponse;
 import com.newapp.dolibarr.service.BackofficeService;
+import com.newapp.dolibarr.service.DashboardService;
 import com.newapp.dolibarr.service.DolibarrResetService;
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -20,10 +23,16 @@ public class BackofficeController {
 
     private final BackofficeService backofficeService;
     private final DolibarrResetService dolibarrResetService;
+    private final DashboardService dashboardService;
 
-    public BackofficeController(BackofficeService backofficeService, DolibarrResetService dolibarrResetService) {
+    public BackofficeController(
+            BackofficeService backofficeService,
+            DolibarrResetService dolibarrResetService,
+            DashboardService dashboardService
+    ) {
         this.backofficeService = backofficeService;
         this.dolibarrResetService = dolibarrResetService;
+        this.dashboardService = dashboardService;
     }
 
     @PostMapping("/check-code")
@@ -55,5 +64,10 @@ public class BackofficeController {
         }
 
         return dolibarrResetService.reinitialiserDonnees();
+    }
+
+    @GetMapping("/dashboard")
+    public DashboardResponse recupererDashboard() {
+        return dashboardService.recupererDonneesDashboard();
     }
 }

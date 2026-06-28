@@ -1,8 +1,11 @@
 com\newapp\dolibarr\dto\ReinitialisationResponse.class
 com\newapp\dolibarr\dto\CodeBackofficeResponse.class
 com\newapp\dolibarr\controller\BackofficeController.class
+com\newapp\dolibarr\service\DashboardService.class
+com\newapp\dolibarr\dto\MontantParMoisResponse.class
 com\newapp\dolibarr\service\BackofficeService.class
 META-INF\spring-configuration-metadata.json
+com\newapp\dolibarr\dto\MontantParGenreResponse.class
 com\newapp\dolibarr\config\BackofficeProperties.class
 com\newapp\dolibarr\service\DolibarrClientService.class
 com\newapp\dolibarr\controller\HealthController.class
@@ -10,6 +13,7 @@ com\newapp\dolibarr\service\DolibarrResetService$ResumeUtilisateurs.class
 com\newapp\dolibarr\service\DolibarrResetService.class
 com\newapp\dolibarr\dto\DolibarrConnectionResponse.class
 com\newapp\dolibarr\DolibarrBackendApplication.class
+com\newapp\dolibarr\dto\DashboardResponse.class
 com\newapp\dolibarr\controller\DolibarrController.class
 com\newapp\dolibarr\config\DolibarrProperties.class
 com\newapp\dolibarr\dto\CodeBackofficeRequest.class

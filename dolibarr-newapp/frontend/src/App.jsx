@@ -1,7 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import DashboardLayout from './components/DashboardLayout.jsx';
 import ProtectedBackofficeRoute from './components/ProtectedBackofficeRoute.jsx';
 import BackofficeAccess from './pages/BackofficeAccess.jsx';
-import BackofficeDashboard from './pages/BackofficeDashboard.jsx';
+import PageReinitialisation from './pages/PageReinitialisation.jsx';
+import PageStatistiques from './pages/PageStatistiques.jsx';
 
 export default function App() {
   return (
@@ -12,10 +14,14 @@ export default function App() {
         path="/backoffice/dashboard"
         element={
           <ProtectedBackofficeRoute>
-            <BackofficeDashboard />
+            <DashboardLayout />
           </ProtectedBackofficeRoute>
         }
-      />
+      >
+        <Route index element={<Navigate to="statistiques" replace />} />
+        <Route path="statistiques" element={<PageStatistiques />} />
+        <Route path="reinitialisation" element={<PageReinitialisation />} />
+      </Route>
     </Routes>
   );
 }

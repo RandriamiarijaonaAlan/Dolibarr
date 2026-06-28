@@ -6,8 +6,12 @@ C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\ne
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\DolibarrBackendApplication.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\CodeBackofficeRequest.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\CodeBackofficeResponse.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\DashboardResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\DolibarrConnectionResponse.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\MontantParGenreResponse.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\MontantParMoisResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ReinitialisationResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\BackofficeService.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DashboardService.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DolibarrClientService.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DolibarrResetService.java
