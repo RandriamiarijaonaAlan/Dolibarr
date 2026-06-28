@@ -1,0 +1,35 @@
+# Dépendances
+node_modules/
+**/node_modules/
+
+# Build React
+frontend/build/
+frontend/.cache/
+
+# Base de données SQLite locale
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
+
+# Fichiers uploadés temporairement (CSV/ZIP importés)
+backend/fichiers-televerses/*
+!backend/fichiers-televerses/.gitkeep
+
+# Variables d'environnement (clé API Dolibarr — ne JAMAIS commit)
+.env
+**/.env
+*.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
