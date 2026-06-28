@@ -22,16 +22,15 @@ public class DolibarrResetService {
 
     public ReinitialisationResponse reinitialiserDonnees() {
         List<String> errors = new ArrayList<>();
-        int paymentsDeleted = supprimerPaiements(errors);
-        int salariesDeleted = supprimerSalaires(errors);
+        ResumeSalaires resumeSalaires = supprimerSalaires(errors);
         ResumeUtilisateurs resumeUtilisateurs = supprimerUtilisateursNonProteges(errors);
 
         return creerResumeReset(
                 resumeUtilisateurs.usersDeleted(),
                 resumeUtilisateurs.usersSkippedProtected(),
                 resumeUtilisateurs.usersSkippedNotNewApp(),
-                salariesDeleted,
-                paymentsDeleted,
+                resumeSalaires.salariesDeleted(),
+                resumeSalaires.paymentsDeleted(),
                 errors
         );
     }
@@ -110,13 +109,48 @@ public class DolibarrResetService {
         return admin != null && admin == 1;
     }
 
-    public int supprimerSalaires(List<String> errors) {
+    public ResumeSalaires supprimerSalaires(List<String> errors) {
+        int salariesDeleted = 0;
+        int paymentsDeleted = 0;
+
         try {
-            return dolibarrClientService.supprimerRessources("/salaries", "/salaries/salary");
+            List<?> salaires = dolibarrClientService.listerRessources("/salaries");
+            List<?> paiements = dolibarrClientService.listerRessources("/salaries/payments");
+
+            if (salaires == null || salaires.isEmpty()) {
+                return new ResumeSalaires(0, 0);
+            }
+
+            for (Object salaire : salaires) {
+                Long idSalaire = dolibarrClientService.extraireId(salaire);
+
+                if (idSalaire == null) {
+                    ajouterErreur(errors, "Salaire sans id detecte, suppression ignoree");
+                    continue;
+                }
+
+                if (!rouvrirSalaire(idSalaire, errors)) {
+                    continue;
+                }
+
+                int paiementsSupprimes = supprimerPaiementsDuSalaire(idSalaire, paiements, errors);
+                if (paiementsSupprimes < 0) {
+                    continue;
+                }
+
+                try {
+                    dolibarrClientService.supprimerRessource("/salaries/salary", idSalaire);
+                    salariesDeleted++;
+                    paymentsDeleted += paiementsSupprimes;
+                } catch (Exception exception) {
+                    ajouterErreur(errors, "Erreur suppression salaire " + idSalaire + " : " + dolibarrClientService.gererErreurDolibarr(exception));
+                }
+            }
         } catch (Exception exception) {
             ajouterErreur(errors, "Erreur suppression salaires : " + dolibarrClientService.gererErreurDolibarr(exception));
-            return 0;
         }
+
+        return new ResumeSalaires(salariesDeleted, paymentsDeleted);
     }
 
     public int supprimerPaiements(List<String> errors) {
@@ -126,6 +160,53 @@ public class DolibarrResetService {
             ajouterErreur(errors, "Erreur suppression paiements : " + dolibarrClientService.gererErreurDolibarr(exception));
             return 0;
         }
+    }
+
+    public boolean rouvrirSalaire(Long idSalaire, List<String> errors) {
+        try {
+            dolibarrClientService.appelerDolibarr(
+                    "/salaries/" + idSalaire,
+                    HttpMethod.PUT,
+                    Map.of("paye", 0),
+                    Map.class
+            );
+            return true;
+        } catch (Exception exception) {
+            ajouterErreur(errors, "Erreur reouverture salaire " + idSalaire + " : " + dolibarrClientService.gererErreurDolibarr(exception));
+            return false;
+        }
+    }
+
+    public int supprimerPaiementsDuSalaire(Long idSalaire, List<?> paiements, List<String> errors) {
+        int paymentsDeleted = 0;
+
+        if (paiements == null || paiements.isEmpty()) {
+            return 0;
+        }
+
+        for (Object paiement : paiements) {
+            Long idPaiement = dolibarrClientService.extraireId(paiement);
+            Long idSalairePaiement = valeurLong(paiement, "fk_salary", "salary_id", "id_salary", "fk_salaryid", "fk_object");
+
+            if (!idSalaire.equals(idSalairePaiement)) {
+                continue;
+            }
+
+            if (idPaiement == null) {
+                ajouterErreur(errors, "Paiement du salaire " + idSalaire + " sans id detecte, suppression ignoree");
+                return -1;
+            }
+
+            try {
+                dolibarrClientService.supprimerRessource("/salaries/{id}/payments", idPaiement);
+                paymentsDeleted++;
+            } catch (Exception exception) {
+                ajouterErreur(errors, "Erreur suppression paiement " + idPaiement + " du salaire " + idSalaire + " : " + dolibarrClientService.gererErreurDolibarr(exception));
+                return -1;
+            }
+        }
+
+        return paymentsDeleted;
     }
 
     public void ajouterErreur(List<String> errors, String erreur) {
@@ -193,10 +274,40 @@ public class DolibarrResetService {
         return null;
     }
 
+    private Long valeurLong(Object ressource, String... cles) {
+        if (!(ressource instanceof Map<?, ?> donnees)) {
+            return null;
+        }
+
+        for (String cle : cles) {
+            Object valeur = donnees.get(cle);
+
+            if (valeur instanceof Number nombre) {
+                return nombre.longValue();
+            }
+
+            if (valeur instanceof String texte && !texte.isBlank()) {
+                try {
+                    return Long.parseLong(texte);
+                } catch (NumberFormatException exception) {
+                    return null;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public record ResumeUtilisateurs(
             int usersDeleted,
             int usersSkippedProtected,
             int usersSkippedNotNewApp
+    ) {
+    }
+
+    public record ResumeSalaires(
+            int salariesDeleted,
+            int paymentsDeleted
     ) {
     }
 }
