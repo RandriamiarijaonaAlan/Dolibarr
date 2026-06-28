@@ -1,6 +1,13 @@
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\config\BackofficeProperties.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\config\DolibarrProperties.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\controller\BackofficeController.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\controller\DolibarrController.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\controller\HealthController.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\DolibarrBackendApplication.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\CodeBackofficeRequest.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\CodeBackofficeResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\DolibarrConnectionResponse.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ReinitialisationResponse.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\BackofficeService.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DolibarrClientService.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DolibarrResetService.java
