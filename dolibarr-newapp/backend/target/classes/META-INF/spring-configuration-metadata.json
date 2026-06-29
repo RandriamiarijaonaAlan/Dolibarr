@@ -1,12 +1,22 @@
 {
   "groups": [
     {
+      "name": "backoffice",
+      "type": "com.newapp.dolibarr.config.BackofficeProperties",
+      "sourceType": "com.newapp.dolibarr.config.BackofficeProperties"
+    },
+    {
       "name": "dolibarr",
       "type": "com.newapp.dolibarr.config.DolibarrProperties",
       "sourceType": "com.newapp.dolibarr.config.DolibarrProperties"
     }
   ],
   "properties": [
+    {
+      "name": "backoffice.code-unique",
+      "type": "java.lang.String",
+      "sourceType": "com.newapp.dolibarr.config.BackofficeProperties"
+    },
     {
       "name": "dolibarr.api-key",
       "type": "java.lang.String",
@@ -15,6 +25,16 @@
     {
       "name": "dolibarr.base-url",
       "type": "java.lang.String",
+      "sourceType": "com.newapp.dolibarr.config.DolibarrProperties"
+    },
+    {
+      "name": "dolibarr.protected-user-ids",
+      "type": "java.util.List<java.lang.Long>",
+      "sourceType": "com.newapp.dolibarr.config.DolibarrProperties"
+    },
+    {
+      "name": "dolibarr.protected-user-logins",
+      "type": "java.util.List<java.lang.String>",
       "sourceType": "com.newapp.dolibarr.config.DolibarrProperties"
     }
   ],
