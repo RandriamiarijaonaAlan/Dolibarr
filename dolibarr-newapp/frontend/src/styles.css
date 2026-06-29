@@ -447,6 +447,48 @@ input {
   cursor: not-allowed;
 }
 
+.import-grille-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.import-vignette {
+  margin: 0;
+  border: 1px solid #d9dee7;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f7f9fb;
+}
+
+.import-vignette img {
+  display: block;
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+}
+
+.import-vignette figcaption {
+  padding: 4px 6px;
+  font-size: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.import-vignette--orpheline {
+  border-color: #c7352c;
+}
+
+.import-tag-orphelin {
+  color: #8a1f17;
+  font-weight: 700;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
 .import-barre-action {
   display: flex;
   align-items: center;

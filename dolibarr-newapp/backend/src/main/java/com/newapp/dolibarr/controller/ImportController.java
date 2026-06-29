@@ -1,6 +1,7 @@
 package com.newapp.dolibarr.controller;
 
 import com.newapp.dolibarr.dto.ImportEmployesRequest;
+import com.newapp.dolibarr.dto.ImportPhotosRequest;
 import com.newapp.dolibarr.dto.ImportResultResponse;
 import com.newapp.dolibarr.dto.ImportSalairesRequest;
 import com.newapp.dolibarr.service.BackofficeService;
@@ -56,5 +57,17 @@ public class ImportController {
         }
 
         return dolibarrImportService.importerSalaires(request.salaires());
+    }
+
+    @PostMapping("/photos")
+    public ImportResultResponse importerPhotos(
+            @RequestHeader(value = "X-BACKOFFICE-CODE", required = false) String code,
+            @RequestBody ImportPhotosRequest request
+    ) {
+        if (!backofficeService.verifierCode(code)) {
+            return ImportResultResponse.refuse("Code backoffice invalide");
+        }
+
+        return dolibarrImportService.importerPhotos(request.photos());
     }
 }

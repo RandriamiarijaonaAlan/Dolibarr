@@ -32,3 +32,17 @@ export async function importerSalaires(salairesValides) {
     headers: entetesBackoffice(),
   });
 }
+
+/** Envoie les photos extraites au backend (upload Dolibarr + miniatures, résolution ref_employe). */
+export async function importerPhotos(photosValides) {
+  // On n'envoie que ce dont le backend a besoin : ref_employe, nom de fichier et contenu base64.
+  const photos = photosValides.map((photo) => ({
+    refEmploye: photo.ref,
+    nomFichier: photo.nomFichier,
+    contenuBase64: photo.base64,
+  }));
+
+  return envoyerRequete('/api/import/photos', 'POST', { photos }, {
+    headers: entetesBackoffice(),
+  });
+}

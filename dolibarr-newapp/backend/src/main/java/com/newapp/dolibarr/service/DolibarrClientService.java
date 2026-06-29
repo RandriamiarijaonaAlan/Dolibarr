@@ -157,6 +157,33 @@ public class DolibarrClientService {
         appelerDolibarr(construireCheminSuppression(cheminSuppression, id), HttpMethod.DELETE, null, String.class);
     }
 
+    /**
+     * Vérifie qu'un fichier d'un module est accessible via GET /documents/download.
+     * Les paramètres sont passés en query (et non dans le chemin) car original_file contient
+     * des slashes. Renvoie vrai si Dolibarr répond 2xx, faux sinon (404, erreur, etc.).
+     */
+    public boolean fichierAccessible(String modulepart, String originalFile) {
+        String url = UriComponentsBuilder
+                .fromHttpUrl(dolibarrProperties.getBaseUrl())
+                .path("/documents/download")
+                .queryParam("modulepart", modulepart)
+                .queryParam("original_file", originalFile)
+                .encode()
+                .toUriString();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("DOLAPIKEY", dolibarrProperties.getApiKey());
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        try {
+            ResponseEntity<String> reponse = restTemplate.exchange(
+                    url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+            return reponse.getStatusCode().is2xxSuccessful();
+        } catch (Exception exception) {
+            return false;
+        }
+    }
+
     private String construireUrl(String chemin) {
         String cheminNormalise = chemin.startsWith("/") ? chemin : "/" + chemin;
 

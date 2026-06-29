@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import ActionButton from '../components/ActionButton.jsx';
 import ZoneImportCsv from '../components/ZoneImportCsv.jsx';
+import ZoneImportPhotos from '../components/ZoneImportPhotos.jsx';
 import { analyserFichierEmployes, analyserFichierSalaires } from '../utils/analyseCsv.js';
-import { importerEmployes, importerSalaires } from '../services/importService.js';
+import { analyserZipPhotos } from '../utils/analyseZipPhotos.js';
+import { importerEmployes, importerPhotos, importerSalaires } from '../services/importService.js';
 
 // Colonnes affichées dans les tableaux de prévisualisation.
 const COLONNES_EMPLOYES = [
@@ -33,21 +35,28 @@ function formaterMontant(montant) {
 export default function PageImport() {
   const [analyseEmployes, setAnalyseEmployes] = useState(null);
   const [analyseSalaires, setAnalyseSalaires] = useState(null);
+  const [analysePhotos, setAnalysePhotos] = useState(null);
   const [rapportEmployes, setRapportEmployes] = useState(null);
   const [rapportSalaires, setRapportSalaires] = useState(null);
+  const [rapportPhotos, setRapportPhotos] = useState(null);
   const [chargement, setChargement] = useState(false);
   const [erreur, setErreur] = useState('');
 
   const nbEmployes = analyseEmployes?.valides?.length ?? 0;
   const nbSalaires = analyseSalaires?.valides?.length ?? 0;
-  const peutImporter = nbEmployes > 0 || nbSalaires > 0;
+  const nbPhotos = analysePhotos?.valides?.length ?? 0;
+  const peutImporter = nbEmployes > 0 || nbSalaires > 0 || nbPhotos > 0;
 
-  // Import séquentiel : employés d'abord (les salaires référencent ref_employe via le tracking).
+  // Refs employés chargés, pour repérer les photos orphelines à l'affichage.
+  const refsEmployes = new Set((analyseEmployes?.valides ?? []).map((employe) => employe.refEmploye));
+
+  // Import séquentiel : employés d'abord (salaires et photos référencent ref_employe via le tracking).
   async function lancerImport() {
     setChargement(true);
     setErreur('');
     setRapportEmployes(null);
     setRapportSalaires(null);
+    setRapportPhotos(null);
 
     try {
       if (nbEmployes > 0) {
@@ -55,6 +64,9 @@ export default function PageImport() {
       }
       if (nbSalaires > 0) {
         setRapportSalaires(await importerSalaires(analyseSalaires.valides));
+      }
+      if (nbPhotos > 0) {
+        setRapportPhotos(await importerPhotos(analysePhotos.valides));
       }
     } catch (err) {
       setErreur(err.message || "Échec de l'import");
@@ -90,9 +102,17 @@ export default function PageImport() {
         desactive={chargement}
       />
 
+      <ZoneImportPhotos
+        onAnalyser={(fichier) => analyserZipPhotos(fichier, refsEmployes)}
+        onAnalyseChange={setAnalysePhotos}
+        refsEmployes={refsEmployes}
+        rapport={rapportPhotos}
+        desactive={chargement}
+      />
+
       <div className="import-barre-action">
         <p className="import-info">
-          L'import est séquentiel : les {nbEmployes} employé(s) sont créés avant les {nbSalaires} salaire(s).
+          Import séquentiel : {nbEmployes} employé(s), puis {nbSalaires} salaire(s), puis {nbPhotos} photo(s).
         </p>
         <ActionButton variant="primary" disabled={!peutImporter || chargement} onClick={lancerImport}>
           {chargement ? 'Import en cours...' : 'Importer'}

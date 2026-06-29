@@ -11,12 +11,14 @@ C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\ne
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\DolibarrConnectionResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\EmployeImportDto.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ImportEmployesRequest.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ImportPhotosRequest.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ImportResultResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ImportSalairesRequest.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\LigneResultatImport.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\MontantParGenreResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\MontantParMoisResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\PaiementImportDto.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\PhotoImportDto.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ReinitialisationResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\SalaireImportDto.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\BackofficeService.java
@@ -24,4 +26,5 @@ C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\ne
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DolibarrClientService.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DolibarrImportService.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DolibarrResetService.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\GenerateurMiniatures.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\ImportTrackingService.java

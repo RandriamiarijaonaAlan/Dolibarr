@@ -5,13 +5,16 @@ import com.newapp.dolibarr.dto.EmployeImportDto;
 import com.newapp.dolibarr.dto.ImportResultResponse;
 import com.newapp.dolibarr.dto.LigneResultatImport;
 import com.newapp.dolibarr.dto.PaiementImportDto;
+import com.newapp.dolibarr.dto.PhotoImportDto;
 import com.newapp.dolibarr.dto.SalaireImportDto;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +46,7 @@ public class DolibarrImportService {
     private final DolibarrClientService dolibarrClientService;
     private final DolibarrProperties dolibarrProperties;
     private final ImportTrackingService importTrackingService;
+    private final GenerateurMiniatures generateurMiniatures;
 
     /** ID numérique du type de règlement Dolibarr (c_paiement.id) pour les paiements de salaire. */
     private final Integer typePaiementId;
@@ -53,12 +57,14 @@ public class DolibarrImportService {
             DolibarrClientService dolibarrClientService,
             DolibarrProperties dolibarrProperties,
             ImportTrackingService importTrackingService,
+            GenerateurMiniatures generateurMiniatures,
             @Value("${import.paiement.type-paiement-id:0}") Integer typePaiementId,
             @Value("${import.paiement.compte-bancaire-id:0}") Integer compteBancaireId
     ) {
         this.dolibarrClientService = dolibarrClientService;
         this.dolibarrProperties = dolibarrProperties;
         this.importTrackingService = importTrackingService;
+        this.generateurMiniatures = generateurMiniatures;
         this.typePaiementId = typePaiementId;
         this.compteBancaireId = compteBancaireId;
     }
@@ -265,6 +271,114 @@ public class DolibarrImportService {
             corps.put("accountid", compteBancaireId);
         }
         return corps;
+    }
+
+    // ─────────────────────────────── Photos ───────────────────────────────
+
+    public ImportResultResponse importerPhotos(List<PhotoImportDto> photos) {
+        List<LigneResultatImport> resultats = new ArrayList<>();
+
+        if (photos == null || photos.isEmpty()) {
+            return new ImportResultResponse(true, "Aucune photo à importer", 0, 0, resultats);
+        }
+
+        for (PhotoImportDto photo : photos) {
+            resultats.add(importerUnePhoto(photo));
+        }
+
+        return synthetiser("Import des photos terminé", resultats);
+    }
+
+    /**
+     * Workflow d'upload d'une photo (vérifié sur la source api_documents) :
+     *  1. résolution ref_employe -> idUser via le tracking (sinon photo orpheline) ;
+     *  2. upload de l'image originale renommée "photo.<ext>" dans {idUser}/photos ;
+     *  3. mise à jour du champ photo du user ;
+     *  4. génération des miniatures photo_small (270x480) et photo_mini (72x128) ;
+     *  5. upload des miniatures dans {idUser}/photos/thumbs ;
+     *  puis vérification d'accessibilité via GET /documents/download.
+     * Garde-fou : jamais de photo pour le superadmin (ID 1) ni un ID protégé.
+     */
+    private LigneResultatImport importerUnePhoto(PhotoImportDto photo) {
+        String reference = photo.refEmploye();
+
+        try {
+            if (reference == null || reference.isBlank()) {
+                return LigneResultatImport.echec(reference, "Référence employé manquante");
+            }
+
+            Long idUser = importTrackingService.resoudreEmploye(reference);
+            if (idUser == null) {
+                return LigneResultatImport.echec(reference,
+                        "Photo orpheline : aucun employé importé pour ref " + reference
+                                + " (importer les employés d'abord)");
+            }
+            if (estIdProtege(idUser)) {
+                return LigneResultatImport.echec(reference,
+                        "ID protégé (" + idUser + "), photo ignorée");
+            }
+
+            byte[] image = Base64.getDecoder().decode(nettoyerBase64(photo.contenuBase64()));
+            String extension = extensionPhoto(photo.nomFichier());
+            String nomCible = "photo." + extension; // convention Dolibarr : toujours "photo.*"
+
+            // Étape 2 : upload de l'image originale.
+            televerserDocument(nomCible, idUser + "/photos", image);
+
+            // Étape 3 : mise à jour du champ photo du user.
+            dolibarrClientService.appelerDolibarr(
+                    "/users/" + idUser, HttpMethod.PUT, Map.of("photo", nomCible), Map.class);
+
+            // Étapes 4 et 5 : miniatures (dimensions Dolibarr en hauteur x largeur).
+            byte[] small = generateurMiniatures.redimensionner(image, 270, 480, extension);
+            byte[] mini = generateurMiniatures.redimensionner(image, 72, 128, extension);
+            televerserDocument("photo_small." + extension, idUser + "/photos/thumbs", small);
+            televerserDocument("photo_mini." + extension, idUser + "/photos/thumbs", mini);
+
+            // Vérification d'accessibilité de la photo.
+            boolean accessible = dolibarrClientService.fichierAccessible("user", idUser + "/photos/" + nomCible);
+            return new LigneResultatImport(reference, true, idUser,
+                    accessible ? "Photo OK (accessible)" : "Photo uploadée mais vérification KO");
+        } catch (IllegalArgumentException exception) {
+            return LigneResultatImport.echec(reference, "Contenu base64 invalide : " + exception.getMessage());
+        } catch (Exception exception) {
+            return LigneResultatImport.echec(reference, dolibarrClientService.gererErreurDolibarr(exception));
+        }
+    }
+
+    /** Téléverse un fichier via POST /documents/upload (modulepart user, contenu base64). */
+    private void televerserDocument(String filename, String subdir, byte[] contenu) {
+        Map<String, Object> corps = new LinkedHashMap<>();
+        corps.put("filename", filename);
+        corps.put("modulepart", "user");
+        corps.put("subdir", subdir);
+        corps.put("filecontent", Base64.getEncoder().encodeToString(contenu));
+        corps.put("fileencoding", "base64");
+        corps.put("overwriteifexists", 1);
+        dolibarrClientService.appelerDolibarr("/documents/upload", HttpMethod.POST, corps, String.class);
+    }
+
+    /** Déduit l'extension cible (png par défaut, jpg si l'original est un JPEG). */
+    private String extensionPhoto(String nomFichier) {
+        String nom = nomFichier == null ? "" : nomFichier.toLowerCase(Locale.ROOT);
+        if (nom.endsWith(".jpg") || nom.endsWith(".jpeg")) {
+            return "jpg";
+        }
+        return "png";
+    }
+
+    /** Retire un éventuel préfixe "data:image/...;base64," avant le décodage. */
+    private String nettoyerBase64(String contenu) {
+        if (contenu == null) {
+            return "";
+        }
+        if (contenu.startsWith("data:")) {
+            int virgule = contenu.indexOf(',');
+            if (virgule >= 0) {
+                return contenu.substring(virgule + 1);
+            }
+        }
+        return contenu;
     }
 
     // ─────────────────────────────── Outils ───────────────────────────────
