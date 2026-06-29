@@ -1,15 +1,28 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import DashboardLayout from './components/DashboardLayout.jsx';
+import FrontOfficeLayout from './components/FrontOfficeLayout.jsx';
 import ProtectedBackofficeRoute from './components/ProtectedBackofficeRoute.jsx';
 import BackofficeAccess from './pages/BackofficeAccess.jsx';
+import PageCreerSalaire from './pages/PageCreerSalaire.jsx';
 import PageImport from './pages/PageImport.jsx';
+import PagePayerSalaire from './pages/PagePayerSalaire.jsx';
 import PageReinitialisation from './pages/PageReinitialisation.jsx';
+import PageSalairesEmploye from './pages/PageSalairesEmploye.jsx';
+import PageSalariesListe from './pages/PageSalariesListe.jsx';
 import PageStatistiques from './pages/PageStatistiques.jsx';
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/backoffice/access" replace />} />
+      <Route path="/" element={<Navigate to="/salaries" replace />} />
+
+      <Route path="/salaries" element={<FrontOfficeLayout />}>
+        <Route index element={<PageSalariesListe />} />
+        <Route path="creer" element={<PageCreerSalaire />} />
+        <Route path="employe/:id" element={<PageSalairesEmploye />} />
+        <Route path=":id/payer" element={<PagePayerSalaire />} />
+      </Route>
+
       <Route path="/backoffice/access" element={<BackofficeAccess />} />
       <Route
         path="/backoffice/dashboard"

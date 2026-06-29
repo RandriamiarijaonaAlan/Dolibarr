@@ -1,5 +1,8 @@
 const API_BASE_URL = 'http://localhost:8080';
 
+// URL absolue du backend, utile pour pointer un <img src> directement vers une route proxy.
+export const URL_BASE_API = API_BASE_URL;
+
 export async function envoyerRequete(chemin, methode = 'GET', donnees = null, options = {}) {
   const configuration = {
     method: methode,

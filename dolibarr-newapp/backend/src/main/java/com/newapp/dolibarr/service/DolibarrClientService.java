@@ -184,6 +184,33 @@ public class DolibarrClientService {
         }
     }
 
+    /**
+     * Télécharge un document via GET /documents/download et renvoie la réponse Dolibarr
+     * (filename, content-type, content en base64...), ou null si le fichier est introuvable.
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> telechargerDocument(String modulepart, String originalFile) {
+        String url = UriComponentsBuilder
+                .fromHttpUrl(dolibarrProperties.getBaseUrl())
+                .path("/documents/download")
+                .queryParam("modulepart", modulepart)
+                .queryParam("original_file", originalFile)
+                .encode()
+                .toUriString();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("DOLAPIKEY", dolibarrProperties.getApiKey());
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        try {
+            ResponseEntity<Map> reponse = restTemplate.exchange(
+                    url, HttpMethod.GET, new HttpEntity<>(headers), Map.class);
+            return reponse.getBody();
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
     private String construireUrl(String chemin) {
         String cheminNormalise = chemin.startsWith("/") ? chemin : "/" + chemin;
 

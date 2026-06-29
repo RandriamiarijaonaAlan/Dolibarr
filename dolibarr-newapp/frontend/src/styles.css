@@ -508,6 +508,306 @@ input {
   font-style: italic;
 }
 
+/* ── Front-office ── */
+.fo-layout {
+  min-height: 100vh;
+}
+
+.fo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 32px;
+  background: #1a2234;
+  color: #fff;
+  flex-wrap: wrap;
+}
+
+.fo-brand {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.fo-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.fo-nav-lien {
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #c8d0de;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.fo-nav-lien:hover {
+  background: #2c3a52;
+  color: #fff;
+}
+
+.fo-nav-lien--actif {
+  background: #1f6feb;
+  color: #fff;
+}
+
+.fo-nav-lien--secondaire {
+  border: 1px solid #3d4f6a;
+}
+
+.fo-contenu {
+  padding: 32px;
+}
+
+.fo-page {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.fo-page--etroite {
+  max-width: 560px;
+}
+
+.fo-page-entete {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0 20px;
+}
+
+.fo-page-entete h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.fo-page-entete p {
+  margin: 0;
+  color: #53606f;
+  font-size: 14px;
+}
+
+.fo-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.fo-filtres label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #53606f;
+}
+
+.fo-filtres input,
+.fo-filtres select,
+.fo-form select,
+.fo-form input,
+.fo-form-paiement input,
+.fo-form-paiement select {
+  border: 1px solid #c7cedb;
+  border-radius: 6px;
+  padding: 9px 10px;
+}
+
+.fo-filtres input[type='number'] {
+  width: 100px;
+}
+
+.fo-lien {
+  background: none;
+  border: 0;
+  color: #1f6feb;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+}
+
+.fo-lien:hover {
+  text-decoration: underline;
+}
+
+.fo-table {
+  background: #fff;
+}
+
+.fo-ligne-cliquable {
+  cursor: pointer;
+}
+
+.fo-ligne-cliquable:hover {
+  background: #f3f8ff;
+}
+
+.fo-statut {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.statut--solde {
+  background: #e4f6ea;
+  color: #1c7a3e;
+}
+
+.statut--partiel {
+  background: #fff6e5;
+  color: #8a5a00;
+}
+
+.statut--impaye {
+  background: #ffeceb;
+  color: #8a1f17;
+}
+
+/* Photos */
+.photo-employe {
+  border-radius: 50%;
+  object-fit: cover;
+  background: #d9dee7;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #53606f;
+  font-weight: 700;
+}
+
+.photo-employe--petite {
+  width: 36px;
+  height: 36px;
+  font-size: 14px;
+}
+
+.photo-employe--moyenne {
+  width: 56px;
+  height: 56px;
+  font-size: 20px;
+}
+
+.photo-employe--grande {
+  width: 72px;
+  height: 72px;
+  font-size: 26px;
+}
+
+/* Fiche de paiement */
+.fo-fiche {
+  background: #fff;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 12px;
+}
+
+.fo-fiche-entete {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e3e7ee;
+  margin-bottom: 16px;
+}
+
+.fo-fiche-entete h1 {
+  margin: 0 0 4px;
+  font-size: 19px;
+}
+
+.fo-fiche-sous {
+  margin: 0;
+  color: #53606f;
+  font-size: 13px;
+}
+
+.fo-fiche-montant {
+  margin-left: auto;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.fo-fiche-montant span {
+  font-size: 12px;
+  color: #53606f;
+}
+
+.fo-fiche-montant strong {
+  font-size: 20px;
+}
+
+.fo-fiche h2,
+.fo-fiche h3 {
+  font-size: 15px;
+  margin: 18px 0 10px;
+}
+
+.fo-reste {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 18px 0;
+  padding: 14px 16px;
+  background: #f7f9fb;
+  border-radius: 8px;
+}
+
+.fo-reste span {
+  font-size: 12px;
+  color: #53606f;
+}
+
+.fo-reste strong {
+  display: block;
+  font-size: 22px;
+  color: #162033;
+}
+
+.fo-form,
+.fo-form-paiement {
+  display: grid;
+  gap: 12px;
+}
+
+.fo-form-paiement {
+  border-top: 1px solid #e3e7ee;
+  padding-top: 16px;
+}
+
+.fo-form label,
+.fo-form-paiement label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #53606f;
+}
+
+.fo-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.fo-solde {
+  background: #e4f6ea;
+  color: #1c7a3e;
+  font-weight: 700;
+}
+
 @media (max-width: 768px) {
   .dashboard-layout {
     flex-direction: column;
