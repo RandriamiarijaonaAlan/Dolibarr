@@ -333,6 +333,139 @@ input {
   margin: 0;
 }
 
+/* ── Page d'import ── */
+.import-zone {
+  background: #ffffff;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.import-zone-entete h2 {
+  margin: 0 0 4px;
+  font-size: 17px;
+}
+
+.import-zone-entete p {
+  margin: 0 0 16px;
+  color: #53606f;
+  font-size: 13px;
+}
+
+.import-depot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px;
+  border: 2px dashed #c7cedb;
+  border-radius: 8px;
+  color: #53606f;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.import-depot:hover,
+.import-depot--survol {
+  border-color: #1f6feb;
+  background: #f3f8ff;
+}
+
+.import-depot-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.import-depot-icone {
+  font-size: 26px;
+}
+
+.import-apercu,
+.import-rapport {
+  margin-top: 20px;
+}
+
+.import-apercu-resume {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.import-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.import-badge--ok {
+  background: #e4f6ea;
+  color: #1c7a3e;
+}
+
+.import-badge--erreur {
+  background: #ffeceb;
+  color: #8a1f17;
+}
+
+.import-erreurs {
+  margin-top: 16px;
+}
+
+.import-erreurs h3,
+.import-rapport h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+.import-erreurs ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #8a1f17;
+  font-size: 13px;
+  display: grid;
+  gap: 4px;
+}
+
+.import-lien-annuler {
+  margin-left: auto;
+  background: transparent;
+  border: 0;
+  color: #1f6feb;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: underline;
+}
+
+.import-lien-annuler:disabled {
+  color: #9aa4b2;
+  cursor: not-allowed;
+}
+
+.import-barre-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 8px;
+  padding: 18px 24px;
+  background: #ffffff;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+}
+
+.import-info {
+  margin: 0;
+  color: #53606f;
+  font-size: 13px;
+  font-style: italic;
+}
+
 @media (max-width: 768px) {
   .dashboard-layout {
     flex-direction: column;

@@ -26,6 +26,13 @@ export default function Sidebar() {
           Statistiques
         </NavLink>
         <NavLink
+          to="/backoffice/dashboard/import"
+          className={({ isActive }) => 'sidebar-link' + (isActive ? ' sidebar-link--active' : '')}
+        >
+          <span className="sidebar-link-icon">📥</span>
+          Import
+        </NavLink>
+        <NavLink
           to="/backoffice/dashboard/reinitialisation"
           className={({ isActive }) => 'sidebar-link' + (isActive ? ' sidebar-link--active' : '')}
         >
