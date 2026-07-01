@@ -3,7 +3,10 @@ import DashboardLayout from './components/DashboardLayout.jsx';
 import FrontOfficeLayout from './components/FrontOfficeLayout.jsx';
 import ProtectedBackofficeRoute from './components/ProtectedBackofficeRoute.jsx';
 import BackofficeAccess from './pages/BackofficeAccess.jsx';
+import DetailSalariePage from './pages/DetailSalariePage.jsx';
+import GenerationSalairesPage from './pages/GenerationSalairesPage.jsx';
 import JoursFeriesPage from './pages/JoursFeriesPage.jsx';
+import ListeSalariesPage from './pages/ListeSalariesPage.jsx';
 import PageCreerSalaire from './pages/PageCreerSalaire.jsx';
 import PageImport from './pages/PageImport.jsx';
 import PagePayerSalaire from './pages/PagePayerSalaire.jsx';
@@ -22,6 +25,11 @@ export default function App() {
         <Route path="creer" element={<PageCreerSalaire />} />
         <Route path="employe/:id" element={<PageSalairesEmploye />} />
         <Route path=":id/payer" element={<PagePayerSalaire />} />
+      </Route>
+      <Route path="/frontoffice" element={<FrontOfficeLayout />}>
+        <Route path="salaries" element={<ListeSalariesPage />} />
+        <Route path="salaries/:id" element={<DetailSalariePage />} />
+        <Route path="generation-salaires" element={<GenerationSalairesPage />} />
       </Route>
 
       <Route path="/backoffice/access" element={<BackofficeAccess />} />

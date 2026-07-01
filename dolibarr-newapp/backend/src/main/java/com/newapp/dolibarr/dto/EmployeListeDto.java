@@ -10,10 +10,13 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EmployeListeDto(
         Long id,
+        String refEmploye,
         String nom,
         String login,
+        String poste,
         String genre,
         Double heuresSemaine,
+        boolean actif,
         int nbSalaires,
         BigDecimal montantTotal,
         BigDecimal resteAPayer

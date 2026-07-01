@@ -59,7 +59,8 @@ public class BackofficeController {
                     0,
                     0,
                     0,
-                    List.of("Réinitialisation refusée")
+                    0,
+                    List.of("Reinitialisation refusee")
             );
         }
 

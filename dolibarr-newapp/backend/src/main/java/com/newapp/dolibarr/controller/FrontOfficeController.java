@@ -2,7 +2,6 @@ package com.newapp.dolibarr.controller;
 
 import com.newapp.dolibarr.dto.CreerPaiementRequest;
 import com.newapp.dolibarr.dto.CreerSalaireRequest;
-import com.newapp.dolibarr.dto.EmployeListeDto;
 import com.newapp.dolibarr.dto.ModePaiementDto;
 import com.newapp.dolibarr.dto.OperationResponse;
 import com.newapp.dolibarr.dto.SalaireDetailDto;
@@ -31,11 +30,6 @@ public class FrontOfficeController {
 
     public FrontOfficeController(FrontOfficeService frontOfficeService) {
         this.frontOfficeService = frontOfficeService;
-    }
-
-    @GetMapping("/employes")
-    public List<EmployeListeDto> listerEmployes() {
-        return frontOfficeService.listerEmployes();
     }
 
     @GetMapping("/employes/{id}/salaires")

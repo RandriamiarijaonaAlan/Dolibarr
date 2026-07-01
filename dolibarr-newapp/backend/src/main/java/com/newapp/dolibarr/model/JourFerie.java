@@ -1,11 +1,13 @@
 package com.newapp.dolibarr.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import com.newapp.dolibarr.config.LocalDateStringConverter;
 import java.time.LocalDate;
 
 @Entity
@@ -20,6 +22,7 @@ public class JourFerie {
     private String nom;
 
     @Column(name = "date_jour", nullable = false)
+    @Convert(converter = LocalDateStringConverter.class)
     private LocalDate dateJour;
 
     private String description;

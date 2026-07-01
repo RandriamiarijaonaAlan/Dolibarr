@@ -93,10 +93,13 @@ public class FrontOfficeService {
 
             resultat.add(new EmployeListeDto(
                     idUser,
+                    texte(getValeur(user, "ref", "ref_employee", "employee_ref", "rowid", "id")),
                     texte(getValeur(user, "lastname", "nom")),
                     texte(getValeur(user, "login")),
+                    texte(getValeur(user, "job", "poste")),
                     texte(getValeur(user, "gender", "genre")),
                     convertirDouble(getValeur(user, "weeklyhours")),
+                    estActif(user),
                     nbSalaires,
                     montantTotal,
                     montantTotal.subtract(totalPaye)
@@ -334,6 +337,15 @@ public class FrontOfficeService {
 
     private Long idSalaireDuPaiement(Map<String, Object> paiement) {
         return convertirLong(getValeur(paiement, "fk_salary", "salary_id", "id_salary", "fk_object"));
+    }
+
+    private boolean estActif(Map<String, Object> user) {
+        Object valeur = getValeur(user, "statut", "status", "active");
+        if (valeur == null) {
+            return true;
+        }
+        String texte = valeur.toString().trim();
+        return "1".equals(texte) || "true".equalsIgnoreCase(texte) || "active".equalsIgnoreCase(texte);
     }
 
     // ─────────────────────────── Outils de conversion ───────────────────────────

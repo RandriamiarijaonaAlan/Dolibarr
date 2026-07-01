@@ -12,6 +12,7 @@ public record ReinitialisationResponse(
         int usersSkippedNotNewApp,
         int salariesDeleted,
         int paymentsDeleted,
+        int joursFeriesDeleted,
         List<String> errors
 ) {
 }

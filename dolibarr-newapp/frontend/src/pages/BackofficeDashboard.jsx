@@ -34,7 +34,7 @@ export default function BackofficeDashboard() {
   }
 
   async function lancerReinitialisation() {
-    const confirmation = window.confirm('Confirmer la réinitialisation des données Dolibarr ?');
+    const confirmation = window.confirm('Confirmer la reinitialisation des donnees Dolibarr et SQLite ?');
 
     if (!confirmation) {
       return;
@@ -83,7 +83,7 @@ export default function BackofficeDashboard() {
       <header className="dashboard-header">
         <div>
           <h1>Dashboard Backoffice</h1>
-          <p>Administration des données Dolibarr</p>
+          <p>Administration des donnees Dolibarr</p>
         </div>
         <ActionButton variant="secondary" onClick={quitterBackoffice}>
           Quitter
@@ -117,10 +117,10 @@ export default function BackofficeDashboard() {
       </CarteStatistique>
 
       <section className="dashboard-section">
-        <h2>Réinitialisation</h2>
-        <p>Supprime depuis Dolibarr uniquement les données autorisées via le backend Spring Boot.</p>
+        <h2>Reinitialisation</h2>
+        <p>Supprime les donnees autorisees dans Dolibarr ainsi que les jours feries stockes en SQLite.</p>
         <ActionButton variant="danger" disabled={chargement} onClick={lancerReinitialisation}>
-          {chargement ? 'Réinitialisation...' : 'Réinitialiser les données'}
+          {chargement ? 'Reinitialisation...' : 'Reinitialiser les donnees'}
         </ActionButton>
       </section>
 
@@ -128,11 +128,12 @@ export default function BackofficeDashboard() {
 
       {details && (
         <section className="resultats">
-          <p>Users supprimés : {details.usersDeleted}</p>
-          <p>Users protégés ignorés : {details.usersSkippedProtected}</p>
-          <p>Users non NewApp ignorés : {details.usersSkippedNotNewApp}</p>
-          <p>Salaires supprimés : {details.salariesDeleted}</p>
-          <p>Paiements supprimés : {details.paymentsDeleted}</p>
+          <p>Users supprimes : {details.usersDeleted}</p>
+          <p>Users proteges ignores : {details.usersSkippedProtected}</p>
+          <p>Users non NewApp ignores : {details.usersSkippedNotNewApp}</p>
+          <p>Salaires supprimes : {details.salariesDeleted}</p>
+          <p>Paiements supprimes : {details.paymentsDeleted}</p>
+          <p>Jours feries SQLite supprimes : {details.joursFeriesDeleted}</p>
           {details.errors?.map((erreur) => (
             <p key={erreur}>{erreur}</p>
           ))}

@@ -2,28 +2,38 @@ package com.newapp.dolibarr.service;
 
 import com.newapp.dolibarr.config.DolibarrProperties;
 import com.newapp.dolibarr.dto.ReinitialisationResponse;
+import com.newapp.dolibarr.repository.JourFerieRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DolibarrResetService {
 
     private final DolibarrClientService dolibarrClientService;
     private final DolibarrProperties dolibarrProperties;
+    private final JourFerieRepository jourFerieRepository;
 
-    public DolibarrResetService(DolibarrClientService dolibarrClientService, DolibarrProperties dolibarrProperties) {
+    public DolibarrResetService(
+            DolibarrClientService dolibarrClientService,
+            DolibarrProperties dolibarrProperties,
+            JourFerieRepository jourFerieRepository
+    ) {
         this.dolibarrClientService = dolibarrClientService;
         this.dolibarrProperties = dolibarrProperties;
+        this.jourFerieRepository = jourFerieRepository;
     }
 
+    @Transactional
     public ReinitialisationResponse reinitialiserDonnees() {
         List<String> errors = new ArrayList<>();
         ResumeSalaires resumeSalaires = supprimerSalaires(errors);
         ResumeUtilisateurs resumeUtilisateurs = supprimerUtilisateursNonProteges(errors);
+        int joursFeriesDeleted = supprimerJoursFeries(errors);
 
         return creerResumeReset(
                 resumeUtilisateurs.usersDeleted(),
@@ -31,6 +41,7 @@ public class DolibarrResetService {
                 resumeUtilisateurs.usersSkippedNotNewApp(),
                 resumeSalaires.salariesDeleted(),
                 resumeSalaires.paymentsDeleted(),
+                joursFeriesDeleted,
                 errors
         );
     }
@@ -209,6 +220,17 @@ public class DolibarrResetService {
         return paymentsDeleted;
     }
 
+    public int supprimerJoursFeries(List<String> errors) {
+        try {
+            long total = jourFerieRepository.count();
+            jourFerieRepository.deleteAllInBatch();
+            return Math.toIntExact(total);
+        } catch (Exception exception) {
+            ajouterErreur(errors, "Erreur suppression jours feries SQLite : " + exception.getMessage());
+            return 0;
+        }
+    }
+
     public void ajouterErreur(List<String> errors, String erreur) {
         errors.add(erreur);
     }
@@ -219,18 +241,20 @@ public class DolibarrResetService {
             int usersSkippedNotNewApp,
             int salariesDeleted,
             int paymentsDeleted,
+            int joursFeriesDeleted,
             List<String> errors
     ) {
         boolean success = errors.isEmpty();
 
         return new ReinitialisationResponse(
                 success,
-                success ? "Donnees Dolibarr reinitialisees" : "Reinitialisation terminee avec erreurs",
+                success ? "Donnees Dolibarr et SQLite reinitialisees" : "Reinitialisation terminee avec erreurs",
                 usersDeleted,
                 usersSkippedProtected,
                 usersSkippedNotNewApp,
                 salariesDeleted,
                 paymentsDeleted,
+                joursFeriesDeleted,
                 errors
         );
     }

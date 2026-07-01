@@ -15,6 +15,12 @@ export default function FrontOfficeLayout() {
           <NavLink to="/salaries/creer" className={classeLien}>
             Créer un salaire
           </NavLink>
+          <NavLink to="/frontoffice/salaries" className={classeLien}>
+            Liste salaries
+          </NavLink>
+          <NavLink to="/frontoffice/generation-salaires" className={classeLien}>
+            Generation salaires
+          </NavLink>
           <NavLink to="/backoffice/access" className="fo-nav-lien fo-nav-lien--secondaire">
             Backoffice
           </NavLink>

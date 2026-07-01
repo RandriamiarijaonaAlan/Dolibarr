@@ -9,7 +9,7 @@ export default function PageReinitialisation() {
   const [details, setDetails] = useState(null);
 
   async function lancerReinitialisation() {
-    const confirmation = window.confirm('Confirmer la réinitialisation des données Dolibarr ?');
+    const confirmation = window.confirm('Confirmer la reinitialisation des donnees Dolibarr et SQLite ?');
     if (!confirmation) return;
 
     setChargement(true);
@@ -33,18 +33,19 @@ export default function PageReinitialisation() {
   return (
     <div className="page-inner">
       <div className="page-inner-header">
-        <h1>Réinitialisation</h1>
-        <p>Suppression des données Dolibarr autorisées</p>
+        <h1>Reinitialisation</h1>
+        <p>Suppression des donnees Dolibarr et SQLite autorisees</p>
       </div>
 
       <div className="reinit-card">
         <p>
-          Cette action supprime depuis Dolibarr uniquement les données autorisées via le backend
-          Spring Boot. Les utilisateurs protégés et les données système sont préservés.
+          Cette action supprime les donnees autorisees dans Dolibarr et vide aussi les jours
+          feries stockes en SQLite. Les utilisateurs proteges et les donnees systeme sont
+          preserves.
         </p>
 
         <ActionButton variant="danger" disabled={chargement} onClick={lancerReinitialisation}>
-          {chargement ? 'Réinitialisation en cours...' : 'Réinitialiser les données'}
+          {chargement ? 'Reinitialisation en cours...' : 'Reinitialiser les donnees'}
         </ActionButton>
 
         {message && (
@@ -53,27 +54,31 @@ export default function PageReinitialisation() {
 
         {details && (
           <div className="reinit-resultats">
-            <h3>Résultats</h3>
+            <h3>Resultats</h3>
             <ul className="reinit-liste">
               <li>
-                <span>Users supprimés</span>
+                <span>Users supprimes</span>
                 <strong>{details.usersDeleted}</strong>
               </li>
               <li>
-                <span>Users protégés ignorés</span>
+                <span>Users proteges ignores</span>
                 <strong>{details.usersSkippedProtected}</strong>
               </li>
               <li>
-                <span>Users non NewApp ignorés</span>
+                <span>Users non NewApp ignores</span>
                 <strong>{details.usersSkippedNotNewApp}</strong>
               </li>
               <li>
-                <span>Salaires supprimés</span>
+                <span>Salaires supprimes</span>
                 <strong>{details.salariesDeleted}</strong>
               </li>
               <li>
-                <span>Paiements supprimés</span>
+                <span>Paiements supprimes</span>
                 <strong>{details.paymentsDeleted}</strong>
+              </li>
+              <li>
+                <span>Jours feries SQLite supprimes</span>
+                <strong>{details.joursFeriesDeleted}</strong>
               </li>
             </ul>
             {details.errors?.length > 0 && (
