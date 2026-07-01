@@ -508,6 +508,70 @@ input {
   font-style: italic;
 }
 
+/* Jours feries */
+.jours-feries-section {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.jours-feries-form,
+.jours-feries-liste {
+  background: #ffffff;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.jours-feries-form {
+  display: grid;
+  gap: 12px;
+}
+
+.jours-feries-form h2 {
+  margin: 0 0 16px;
+  font-size: 17px;
+}
+
+.jours-feries-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #53606f;
+  font-size: 13px;
+}
+
+.jours-feries-form input,
+.jours-feries-form textarea {
+  border: 1px solid #c7cedb;
+  border-radius: 6px;
+  padding: 9px 10px;
+}
+
+.jours-feries-form textarea {
+  resize: vertical;
+}
+
+.jours-feries-check {
+  flex-direction: row !important;
+  align-items: center;
+}
+
+.jours-feries-check input {
+  width: auto;
+}
+
+.jours-feries-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.fo-lien-danger {
+  color: #c7352c;
+}
+
 /* ── Front-office ── */
 .fo-layout {
   min-height: 100vh;
@@ -835,6 +899,10 @@ input {
 
   .page-inner {
     padding: 20px;
+  }
+
+  .jours-feries-section {
+    grid-template-columns: 1fr;
   }
 }
 

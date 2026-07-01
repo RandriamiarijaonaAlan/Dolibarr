@@ -5,6 +5,7 @@ C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\ne
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\controller\FrontOfficeController.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\controller\HealthController.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\controller\ImportController.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\controller\JourFerieController.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\DolibarrBackendApplication.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\CodeBackofficeRequest.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\CodeBackofficeResponse.java
@@ -18,6 +19,7 @@ C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\ne
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ImportPhotosRequest.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ImportResultResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ImportSalairesRequest.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\JourFerieDto.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\LigneResultatImport.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ModePaiementDto.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\MontantParGenreResponse.java
@@ -29,6 +31,8 @@ C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\ne
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\ReinitialisationResponse.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\SalaireDetailDto.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\dto\SalaireImportDto.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\model\JourFerie.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\repository\JourFerieRepository.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\BackofficeService.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DashboardService.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\DolibarrClientService.java
@@ -37,3 +41,4 @@ C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\ne
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\FrontOfficeService.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\GenerateurMiniatures.java
 C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\ImportTrackingService.java
+C:\Users\ACER NITRO\Videos\Dolibarr\dolibarr-newapp\backend\src\main\java\com\newapp\dolibarr\service\JourFerieService.java

@@ -14,6 +14,7 @@ const COLONNES_EMPLOYES = [
   { cle: 'identifiant', libelle: 'Identifiant' },
   { cle: 'mdp', libelle: 'Mot de passe', formater: () => '••••••' },
   { cle: 'heureTravailSemaine', libelle: 'Heures/sem.', formater: (valeur) => valeur ?? '—' },
+  { cle: 'poste', libelle: 'Poste', formater: (valeur) => valeur || '—' },
 ];
 
 const COLONNES_SALAIRES = [
@@ -84,7 +85,7 @@ export default function PageImport() {
 
       <ZoneImportCsv
         titre="Fichier Employés (Feuille_1)"
-        description="Colonnes : ref_employe, nom, genre, identifiant, mdp, heure_travail_semaine"
+        description="Colonnes : ref_employe, nom, genre, identifiant, mdp, heure_travail_semaine, poste"
         colonnesApercu={COLONNES_EMPLOYES}
         onAnalyser={analyserFichierEmployes}
         onAnalyseChange={setAnalyseEmployes}

@@ -1,7 +1,7 @@
 import Papa from 'papaparse';
 
 // Colonnes attendues dans chaque fichier CSV.
-const COLONNES_EMPLOYES = ['ref_employe', 'nom', 'genre', 'identifiant', 'mdp', 'heure_travail_semaine'];
+const COLONNES_EMPLOYES = ['ref_employe', 'nom', 'genre', 'identifiant', 'mdp', 'heure_travail_semaine', 'poste'];
 const COLONNES_SALAIRES = ['ref_salaire', 'ref_employe', 'date_debut', 'date_fin', 'montant', 'paiement'];
 
 /**
@@ -115,6 +115,7 @@ export async function analyserFichierEmployes(fichier) {
     const mdp = ligne.mdp ?? '';
     const genre = convertirGenre(ligne.genre);
     const heureBrute = (ligne.heure_travail_semaine || '').trim();
+    const poste = (ligne.poste || '').trim();
 
     if (!refEmploye) raisons.push('ref_employe manquant');
     if (!nom) raisons.push('nom manquant');
@@ -145,6 +146,7 @@ export async function analyserFichierEmployes(fichier) {
       identifiant,
       mdp,
       heureTravailSemaine,
+      poste,
     });
   });
 

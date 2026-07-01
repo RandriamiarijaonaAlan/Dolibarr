@@ -33,6 +33,13 @@ export default function Sidebar() {
           Import
         </NavLink>
         <NavLink
+          to="/backoffice/jours-feries"
+          className={({ isActive }) => 'sidebar-link' + (isActive ? ' sidebar-link--active' : '')}
+        >
+          <span className="sidebar-link-icon">JF</span>
+          Jours feries
+        </NavLink>
+        <NavLink
           to="/backoffice/dashboard/reinitialisation"
           className={({ isActive }) => 'sidebar-link' + (isActive ? ' sidebar-link--active' : '')}
         >

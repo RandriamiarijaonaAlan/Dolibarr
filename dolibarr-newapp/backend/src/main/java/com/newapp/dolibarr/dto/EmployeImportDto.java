@@ -11,6 +11,7 @@ public record EmployeImportDto(
         String genre,
         String identifiant,
         String mdp,
-        Double heureTravailSemaine
+        Double heureTravailSemaine,
+        String poste
 ) {
 }

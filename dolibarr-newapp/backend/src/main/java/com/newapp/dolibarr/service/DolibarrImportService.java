@@ -94,13 +94,7 @@ public class DolibarrImportService {
                 return LigneResultatImport.echec(reference, erreurValidation);
             }
 
-            ResponseEntity<String> reponse = dolibarrClientService.appelerDolibarr(
-                    "/users", HttpMethod.POST, construireCorpsEmploye(employe), String.class);
-
-            Long idCree = extraireIdReponse(reponse.getBody());
-            if (idCree == null) {
-                return LigneResultatImport.echec(reference, "Réponse Dolibarr sans ID exploitable");
-            }
+            Long idCree = creerOuMettreAJourEmploye(employe);
 
             // Garde-fou : on ne touche jamais au superadmin.
             if (estIdProtege(idCree)) {
@@ -128,6 +122,39 @@ public class DolibarrImportService {
         return null;
     }
 
+    private Long creerOuMettreAJourEmploye(EmployeImportDto employe) {
+        Long idExistant = trouverEmployeParLogin(loginDolibarr(employe.identifiant()));
+        Map<String, Object> corps = construireCorpsEmploye(employe);
+
+        if (idExistant != null) {
+            if (estIdProtege(idExistant)) {
+                return idExistant;
+            }
+            dolibarrClientService.appelerDolibarr(
+                    "/users/" + idExistant, HttpMethod.PUT, corps, String.class);
+            return idExistant;
+        }
+
+        ResponseEntity<String> reponse = dolibarrClientService.appelerDolibarr(
+                "/users", HttpMethod.POST, corps, String.class);
+
+        Long idCree = extraireIdReponse(reponse.getBody());
+        if (idCree == null) {
+            throw new IllegalStateException("Réponse Dolibarr sans ID exploitable");
+        }
+        return idCree;
+    }
+
+    private Long trouverEmployeParLogin(String login) {
+        List<?> utilisateurs = dolibarrClientService.listerRessources("/users");
+        for (Object utilisateur : utilisateurs) {
+            if (utilisateur instanceof Map<?, ?> donnees && login.equals(String.valueOf(donnees.get("login")))) {
+                return dolibarrClientService.extraireId(donnees);
+            }
+        }
+        return null;
+    }
+
     /**
      * Construit le corps de la requête POST /users.
      * Le mot de passe est transmis EN CLAIR : Dolibarr le hash à la réception. Le hacher
@@ -137,16 +164,28 @@ public class DolibarrImportService {
      */
     private Map<String, Object> construireCorpsEmploye(EmployeImportDto employe) {
         Map<String, Object> corps = new LinkedHashMap<>();
-        corps.put("login", employe.identifiant());
+        corps.put("login", loginDolibarr(employe.identifiant()));
         corps.put("password", employe.mdp());
         corps.put("lastname", employe.nom());
+        corps.put("employee", 1);
+        corps.put("statut", 1);
+        corps.put("import_key", "NEWAPP");
+        corps.put("note_private", "NEWAPP_IMPORT");
         if (employe.genre() != null && !employe.genre().isBlank()) {
             corps.put("gender", employe.genre()); // déjà converti homme->man / femme->woman côté front
         }
         if (employe.heureTravailSemaine() != null) {
             corps.put("weeklyhours", employe.heureTravailSemaine());
         }
+        if (employe.poste() != null && !employe.poste().isBlank()) {
+            corps.put("job", employe.poste());
+        }
         return corps;
+    }
+
+    private String loginDolibarr(String identifiant) {
+        String valeur = identifiant == null ? "" : identifiant.trim();
+        return valeur.startsWith("newapp_") ? valeur : "newapp_" + valeur;
     }
 
     // ─────────────────────────────── Salaires ───────────────────────────────

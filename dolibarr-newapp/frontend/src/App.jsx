@@ -3,6 +3,7 @@ import DashboardLayout from './components/DashboardLayout.jsx';
 import FrontOfficeLayout from './components/FrontOfficeLayout.jsx';
 import ProtectedBackofficeRoute from './components/ProtectedBackofficeRoute.jsx';
 import BackofficeAccess from './pages/BackofficeAccess.jsx';
+import JoursFeriesPage from './pages/JoursFeriesPage.jsx';
 import PageCreerSalaire from './pages/PageCreerSalaire.jsx';
 import PageImport from './pages/PageImport.jsx';
 import PagePayerSalaire from './pages/PagePayerSalaire.jsx';
@@ -35,7 +36,18 @@ export default function App() {
         <Route index element={<Navigate to="statistiques" replace />} />
         <Route path="statistiques" element={<PageStatistiques />} />
         <Route path="import" element={<PageImport />} />
+        <Route path="jours-feries" element={<JoursFeriesPage />} />
         <Route path="reinitialisation" element={<PageReinitialisation />} />
+      </Route>
+      <Route
+        path="/backoffice/jours-feries"
+        element={
+          <ProtectedBackofficeRoute>
+            <DashboardLayout />
+          </ProtectedBackofficeRoute>
+        }
+      >
+        <Route index element={<JoursFeriesPage />} />
       </Route>
     </Routes>
   );
